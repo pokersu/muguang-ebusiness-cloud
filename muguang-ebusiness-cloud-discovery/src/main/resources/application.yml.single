@@ -1,0 +1,25 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: yokimi-ebusiness-cloud-discovery
+
+security:
+  basic:
+    enabled: true
+  user:
+    name: root
+    password: root
+    
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: localhost

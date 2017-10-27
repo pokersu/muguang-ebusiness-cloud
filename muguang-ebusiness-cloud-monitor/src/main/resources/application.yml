@@ -1,0 +1,15 @@
+server:
+  port: 7903
+spring:
+  application:
+    name: muguang-ebusiness-cloud-monitor
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@peer1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+turbine:
+  appConfig: muguang-ebusiness-cloud-account,muguang-ebusiness-cloud-finance,muguang-ebusiness-cloud-goods,muguang-ebusiness-cloud-order,muguang-ebusiness-cloud-shop,muguang-ebusiness-cloud-trade
+  clusterNameExpression: "'default'"

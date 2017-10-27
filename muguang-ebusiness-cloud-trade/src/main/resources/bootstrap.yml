@@ -1,0 +1,22 @@
+server:
+  port: 12006
+spring:
+  application:
+    name: muguang-ebusiness-cloud-trade    # 对应config server所获取的配置文件的{application}
+  cloud:
+    config:
+      username: root
+      password: root
+      profile: dev
+      label: master
+      discovery:
+        enabled: true
+        service-id: muguang-ebusiness-cloud-config
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}

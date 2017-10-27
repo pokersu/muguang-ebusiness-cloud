@@ -1,0 +1,39 @@
+# 1. 建议server.port 参数通过main方法参数传入 "--server.port=xxx"
+# 2. 由于启动顺序的问题 ,需要将连接config server相关配置放于 bootstrap.yml 中
+#
+
+server:
+  port: 12001
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  http:
+    multipart:
+      max-file-size: 200Mb        #默认1M
+      max-request-size: 250Mb     # 默认10M
+  zipkin:
+    base-url: http://127.0.0.1:12007/
+  sleuth:
+    sampler:
+      percentage: 1.0             #采样率  0-1.0  -->  0%-100%
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@peer1:8761/eureka, http://root:root@peer2:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+logging:
+  level:
+    feign: debug
+    com.yokimi.ebusiness_cloud.feign.AccountFeignClient: debug
+endpoints:
+  actuator:
+    enabled:
+yokimi-ebusiness-cloud-finance:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule            #负载算法 --> 随机

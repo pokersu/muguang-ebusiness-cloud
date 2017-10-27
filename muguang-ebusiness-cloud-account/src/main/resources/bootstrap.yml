@@ -1,0 +1,22 @@
+server:
+  port: 12001
+spring:
+  application:
+    name: muguang-ebusiness-cloud-account    # 对应config server所获取的配置文件的{application}
+  cloud:
+    config:
+      #uri: http://localhost:7901/  建议结合eureka使用 通过eureka发现 config server
+      profile: dev            # profile对应config server所获取的配置文件中的{profile}
+      label: master           # 指定Git仓库的分支，对应config server所获取的配置文件的{label}
+      username: root
+      password: root
+      discovery:
+        enabled: true
+        service-id: muguang-ebusiness-cloud-config
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@peer1:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}

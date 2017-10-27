@@ -1,0 +1,22 @@
+server:
+  port: 12002
+spring:
+  application:
+    name: muguang-ebusiness-cloud-finance
+  cloud:
+    config:
+      profile: dev
+      label: master
+      username: root
+      password: root
+      discovery:
+        enabled: true
+        service-id: muguang-ebusiness-cloud-config
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@peer1:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}

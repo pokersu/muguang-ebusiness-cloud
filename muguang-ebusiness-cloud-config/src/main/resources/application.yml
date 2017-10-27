@@ -1,0 +1,36 @@
+server:
+  port: 7901
+
+spring:
+  application:
+    name: muguang-ebusiness-cloud-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/pokersu/muguang-ebusiness-cloud-repo.git      # 配置Git仓库的地址
+          username:                                                         # Git仓库的账号
+          password:                                                         # Git仓库的密码
+    bus:
+      trace:
+        enabled: true     # 开启cloud bus的跟踪
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+security:
+  basic:
+    enabled: true               # 开启基于HTTP basic的认证
+  user:
+    name: root                  # 配置登录的账号是root
+    password: root             # 配置登录的密码是root
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://root:root@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}

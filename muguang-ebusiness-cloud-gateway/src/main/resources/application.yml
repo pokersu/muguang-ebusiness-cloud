@@ -1,0 +1,74 @@
+server:
+  port: 7902
+spring:
+  application:
+    name: muguang-ebusiness-cloud-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+
+# 上传大文件得将超时时间设置长一些，否则会报超时异常。以下几行超时设置来自http://cloud.spring.io/spring-cloud-static/Camden.SR3/#_uploading_files_through_zuul
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+
+logging:
+  level:
+    com.netflix: DEBUG
+
+zuul:
+  ignored-services: '*'   # 使用'*'可忽略所有微服务
+  routes:
+    muguang-ebusiness-cloud-account: /account/**
+    muguang-ebusiness-cloud-finance: /finance/**
+    muguang-ebusiness-cloud-goods: /goods/**
+    muguang-ebusiness-cloud-order: /order/**
+    muguang-ebusiness-cloud-shop: /shop/**
+    muguang-ebusiness-cloud-trade: /trade/**
+  #ignored-services: muguang-ebusiness-cloud-account,muguang-ebusiness-cloud-finance  忽略指定微服务
+#zuul:
+#  routes:
+#    user-route:                   # 该配置方式中，user-route只是给路由一个名称，可以任意起名。
+#      service-id: provider-microservice-user
+#      path: /user/**              # service-id对应的路径
+
+#zuul:
+#  routes:
+#    user-route:                   # 该配置方式中，user-route只是给路由一个名称，可以任意起名。
+#      url: http://localhost:8000/ # 指定的url
+#      path: /user/**              # url对应的路径。
+
+
+#zuul:
+#  routes:
+#    user-route:
+#      path: /user/**
+#      service-id: microservice-provider-user
+#ribbon:
+#  eureka:
+#    enabled: false    # 禁用掉ribbon的eureka使用。详见：http://cloud.spring.io/spring-cloud-static/Camden.SR3/#_example_disable_eureka_use_in_ribbon
+#microservice-provider-user:
+#  ribbon:
+#    listOfServers: localhost:8000,localhost:8001
+
+#zuul:
+#  prefix: /api
+#  strip-prefix: false
+#  routes:
+#    microservice-provider-user: /user/**
+
+#zuul:
+#  routes:
+#    microservice-provider-user:
+#      path: /user/**
+#      strip-prefix: false
+
+#zuul:
+#  ignoredPatterns: /**/admin/**   # 忽略所有包括/admin/的路径
+#  routes:
+#    microservice-provider-user: /user/**
